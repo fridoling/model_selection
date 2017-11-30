@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" xmlns:celldesigner="http://www.sbml.org/2001/ns/celldesigner" level="2" version="4">
+  <model id="untitled">
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance" name="substance">
+	<listOfUnits>
+	  <unit kind="mole"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume" name="volume">
+	<listOfUnits>
+	  <unit kind="litre"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area" name="area">
+	<listOfUnits>
+	  <unit kind="metre" exponent="2"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition  id="length" name="length">
+	<listOfUnits>
+	  <unit kind="metre"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time" name="time">
+	<listOfUnits>
+	  <unit kind="second"/>
+	</listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="cOne" size="1" units="volume"/>
+    </listOfCompartments>
+    <listOfSpecies>
+     	<species  id="pp1" name="PP1" compartment="cOne"
+		initialAmount="10" charge="0">
+	</species>
+	<species  id="rvsf" name="RVSF" compartment="cOne"
+		initialAmount="0" charge="0">
+	</species>
+	<species  id="prvsf" name="phosphorylated RVSF"
+		compartment="cOne" initialAmount="1" charge="0">
+	</species>
+	<species  id="pp2a" name="PP2A"
+		compartment="cOne" initialAmount="10"
+		charge="0">
+	</species>
+	<species  id="melt" name="MELT"
+		compartment="cOne" initialAmount="1"
+		charge="0">
+	</species>
+	<species  id="pmelt" name="phosphorylated MELT"
+		compartment="cOne" initialAmount="0" charge="0">
+	</species>
+	<species  id="bub1" name="BUB1"
+		compartment="cOne" initialAmount="10" charge="0">
+	</species>
+	<species  id="aurb" name="AurB"
+		compartment="cOne" initialAmount="1"
+		charge="0">
+	</species>
+	<species  id="paurb" name="phosphorylated AurB"
+		compartment="cOne" initialAmount="0"
+		charge="0">
+	</species>
+	<species  id="mps1" name="MPS1"
+		compartment="cOne" initialAmount="1" charge="0">
+	</species>
+	<species  id="pmelt_bub1" name="MELT:BUB1"
+		compartment="cOne" initialAmount="0" charge="0">
+	</species>
+	<species  id="pmelt_bub1_pp2a" name="MELT:BUB1:PP2A"
+		compartment="cOne" initialAmount="0" charge="0">
+	</species>
+	<species  id="rvsf_pp1" name="RVSF:PP1"
+		compartment="cOne" initialAmount="0" charge="0">
+	</species>
+	<species id="pmelt_tot" name="total phosphorylated MELT"
+		compartment="cOne" initialAmount="1" charge="0">		
+	</species>	    
+    </listOfSpecies>
+    <listOfParameters>
+	<parameter id="kb_rvsf_pp1" name="k_b^{RVSF:PP1}" value="1" units="substance"/>
+	<parameter id="kd_rvsf_pp1" name="k_d^{RVSF:PP1}" value="1" units="substance"/>
+	<parameter id="kb_pmelt_bub1" name="k_b^{pMELT:BUB1}" value="1" units="substance"/>
+	<parameter id="kd_pmelt_bub1" name="k_d^{pMELT:BUB1}" value="1" units="substance"/>
+	<parameter id="kb_pmelt_bub1_pp2a" name="k_b^{pMELT:BUB1:PP2A}" value="1" units="substance"/>
+	<parameter id="kd_pmelt_bub1_pp2a" name="k_d^{pMELT:BUB1:PP2A}" value="1" units="substance"/>
+	<parameter id="kp_melt" name="k_p^{MELT}" value="1" units="substance"/>
+	<parameter id="kdp_melt" name="k_dp^{MELT}" value="1" units="substance"/>
+	<parameter id="kp_rvsf" name="k_p^{RVSF}" value="1" units="substance"/>
+	<parameter id="kdp_rvsf_pp2a" name="k_dp^{RVSF (PP2A)}" value="1" units="substance"/>
+	<parameter id="kdp_rvsf_pp1" name="k_dp^{RVSF (PP1)}" value="1" units="substance"/>
+	<parameter id="kp_aurb_bub1" name="k_p^{AurB (BUB1)}" value="1" units="substance"/>
+	<parameter id="kp_aurb_aurb" name="k_p^{AurB (AurB)}" value="1" units="substance"/>
+	<parameter id="kdp_aurb_pp1" name="k_dp^{AurB (PP1)}" value="1" units="substance"/>
+	<parameter id="kdp_aurb_pp2a" name="k_dp^{AurB (PP2A)}" value="1" units="substance"/>
+	<parameter id="pp1_tot" name="total PP1" value="10" units="substance"/>      
+	<parameter id="bub1_tot" name="total BUB1" value="10" units="substance"/>      
+	<parameter id="pp2a_tot" name="total PP2A" value="10" units="substance"/>      
+	<parameter id="kln1_tot" name="total KLN1" value="1" units="substance"/>           
+	<parameter id="aurb_tot" name="total AurB" value="1" units="substance"/>           
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="pmelt_tot">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <plus/>
+	    <ci> pmelt </ci>
+	    <ci> pmelt_bub1 </ci>
+	    <ci> pmelt_bub1_pp2a </ci>
+	  </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="pp1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <minus/>
+	    <ci> pp1_tot </ci>
+	    <ci> rvsf_pp1 </ci>
+	  </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="bub1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <minus/>
+	    <ci> bub1_tot </ci>
+	    <ci> pmelt_bub1 </ci>
+	    <ci> pmelt_bub1_pp2a </ci>
+	  </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="pp2a">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <minus/>
+	    <ci> pp2a_tot </ci>
+	    <ci> pmelt_bub1_pp2a </ci>
+	  </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="melt">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <minus/>
+	    <ci> kln1_tot </ci>
+	    <apply>
+	      <plus/>
+	      <ci> pmelt </ci>
+	      <ci> pmelt_bub1_pp2a </ci>
+	      <ci> pmelt_bub1 </ci>
+	    </apply>
+	  </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="prvsf">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <minus/>
+	    <ci> kln1_tot </ci>
+	    <apply>
+	      <plus/>
+	      <ci> rvsf </ci>
+	      <ci> rvsf_pp1 </ci>
+	    </apply>
+	  </apply>
+        </math>
+      </assignmentRule>      
+      <assignmentRule variable="aurb">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+	  <apply>
+	    <minus/>
+	    <ci> aurb_tot </ci>
+	    <ci> paurb </ci>
+	  </apply>
+        </math>
+      </assignmentRule>      
+    </listOfRules>    
+    <listOfReactions>
+      <reaction  id="b_rvsf_pp1" name="RVSF:PP1 binding" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="rvsf">
+	  </speciesReference>
+	  <speciesReference  species="pp1">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="rvsf_pp1">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> pp1 </ci>
+	      <ci> rvsf </ci>
+	      <ci> kb_rvsf_pp1 </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="d_kln1_pp1" name="RVSF:PP1 dissociation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="rvsf_pp1">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="rvsf">
+	  </speciesReference>
+	  <speciesReference  species="pp1">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> rvsf_pp1 </ci>
+	      <ci> kd_rvsf_pp1 </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="b_pmelt_bub1" name="pMELT:BUB1 binding" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="pmelt">
+	  </speciesReference>
+	  <speciesReference  species="bub1">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="pmelt_bub1">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> pmelt </ci>
+	      <ci> bub1 </ci>
+	      <ci> kb_pmelt_bub1 </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="d_pmelt_bub1" name="pMELT:BUB1 dissociation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="pmelt_bub1">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="pmelt">
+	  </speciesReference>
+	  <speciesReference  species="bub1">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> pmelt_bub1 </ci>
+	      <ci> kd_pmelt_bub1</ci>
+	    </apply>
+	  </math> </kineticLaw> </reaction> <reaction  id="b_pmelt_bub1_pp2a" name="pMELT:BUB1:PP2A binding" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="pmelt_bub1">
+	  </speciesReference>
+	  <speciesReference  species="pp2a">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="pmelt_bub1_pp2a">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> pmelt_bub1 </ci>
+	      <ci> pp2a </ci>
+	      <ci> kb_pmelt_pp2a </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="d_pmelt_bub1_pp2a" name="pMELT:BUB1:PP2A dissociation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="pmelt_bub1_pp2a">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="pmelt_bub1">
+	  </speciesReference>
+	  <speciesReference  species="pp2a">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> pmelt_bub1_pp2a </ci>
+	      <ci> kd_pmelt_bub1_pp2a </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+     <reaction  id="p_rvsf" name="RVSF phosphorylation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="rvsf">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="prvsf">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="aurb">
+	  </modifierSpeciesReference>
+	</listOfModifiers>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> rvsf </ci>
+	      <ci> aurb </ci>
+	      <ci> kp_rvsf </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="dp_rvsf_pp2a" name="RVSF dephosphorylation by PP2A" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="prvsf">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="rvsf">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="pmelt_bub1_pp2a"/>
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> prvsf </ci>
+	      <ci> pmelt_bub1_pp2 </ci>
+	      <ci> kdp_rvsf_pp2a </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="dp_rvsf_pp1" name="RVSF dephosphorylation by PP1" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="prvsf">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="rvsf">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="rvsf_pp1"/>
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> prvsf </ci>
+	      <ci> rvsf_pp1 </ci>
+	      <ci> kdp_rvsf_pp1 </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="p_melt" name="MELT phosphorylation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="melt">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="pmelt">
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="mps1"/>
+	</listOfModifiers>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> melt </ci>
+	      <ci> mps1 </ci>
+	      <ci> kp_melt </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="dp_melt" name="MELT dephosphorylation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="pmelt">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="rvsf_pp1"/> 
+	</listOfModifiers>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> pmelt </ci>
+	      <ci> rvsf_pp1 </ci>
+	      <ci> kdp_melt </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="p_aurb_bub1" name="AurB phosphorylation by BUB1" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="aurb">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="paurb">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="pmelt_bub1"/>
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> aurb </ci>
+	      <ci> pmelt_bub1 </ci>
+	      <ci> kp_aurb_bub1 </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="p_aurb_aurb" name="AurB dephosphorylation by itself" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="aurb">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="paurb">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="paurb"/>
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> aurb </ci>
+	      <ci> paurb </ci>
+	      <ci> kp_aurb_aurb</ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="dp_aurb_pp2a" name="AurB dephosphorylation by PP2A" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="paurb">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="aurb">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="pmelt_bub1_pp2a"/>
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> paurb </ci>
+	      <ci> pmelt_bub1_pp2 </ci>
+	      <ci> kdp_aurb_pp2a </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="dp_aurb_pp1" name="AurB dephosphorylation by PP1" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="paurb">
+	  </speciesReference>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference  species="aurb">	    
+	  </speciesReference>
+	</listOfProducts>
+	<listOfModifiers>
+	  <modifierSpeciesReference  species="rvsf_pp1"/>
+	</listOfModifiers>
+	<kineticLaw>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> paurb </ci>
+	      <ci> rvsf_pp1 </ci>
+	      <ci> kdp_aurb_pp1 </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+   </listOfReactions>
+  </model>
+</sbml>
