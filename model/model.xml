@@ -278,7 +278,7 @@
 	      <times/>
 	      <ci> pmelt_bub1 </ci>
 	      <ci> pp2a </ci>
-	      <ci> kb_pmelt_pp2a </ci>
+	      <ci> kb_pmelt_bub1_pp2a </ci>
 	    </apply>
 	  </math>
 	</kineticLaw>
@@ -345,7 +345,7 @@
 	    <apply>
 	      <times/>
 	      <ci> prvsf </ci>
-	      <ci> pmelt_bub1_pp2 </ci>
+	      <ci> pmelt_bub1_pp2a </ci>
 	      <ci> kdp_rvsf_pp2a </ci>
 	    </apply>
 	  </math>
@@ -479,7 +479,7 @@
 	    <apply>
 	      <times/>
 	      <ci> paurb </ci>
-	      <ci> pmelt_bub1_pp2 </ci>
+	      <ci> pmelt_bub1_pp2a </ci>
 	      <ci> kdp_aurb_pp2a </ci>
 	    </apply>
 	  </math>
