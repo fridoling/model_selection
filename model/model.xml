@@ -368,8 +368,12 @@
 	    <apply>
 	      <times/>
 	      <ci> prvsf </ci>
-	      <ci> rvsf_pp1 </ci>
 	      <ci> kdp_rvsf_pp1 </ci>
+	      <apply>
+		<plus/>
+		<ci> 0.000001 </ci>
+	      	<ci> rvsf_pp1 </ci>
+	      </apply>
 	    </apply>
 	  </math>
 	</kineticLaw>
@@ -439,7 +443,7 @@
 	  </math>
 	</kineticLaw>
       </reaction>
-      <reaction  id="p_aurb_aurb" name="AurB dephosphorylation by itself" reversible="false" fast="false">
+      <reaction  id="p_aurb_aurb" name="AurB phosphorylation by itself" reversible="false" fast="false">
 	<listOfReactants>
 	  <speciesReference  species="aurb">
 	  </speciesReference>
@@ -456,8 +460,12 @@
 	    <apply>
 	      <times/>
 	      <ci> aurb </ci>
-	      <ci> paurb </ci>
 	      <ci> kp_aurb_aurb</ci>
+	      <apply>
+		<plus/>
+		<ci> 0.000001 </ci>
+	      	<ci> paurb </ci>
+	      </apply>
 	    </apply>
 	  </math>
 	</kineticLaw>
