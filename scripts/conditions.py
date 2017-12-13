@@ -8,7 +8,7 @@ class wiring:
 		self.id = id
 		self.nets = dict()
 		self.expts = dict()
-		self.models = dict()
+		self.opt = dict()
 						    
 	def add_net(self, net):
 		self.nets[net.id] = net
@@ -16,28 +16,29 @@ class wiring:
 	def add_expt(self, expt):
 		self.expts[expt.name] = expt
 									    
-	def add_model(self, conditions, id):
+	def add_opt(self, conditions, id):
 		nets = []
 		expts = []
+		params = []
 		for c in conditions:
 			if c not in self.nets:
 				raise NameError('no net for given condition')
 			nets.append(self.nets[c])
+			params+=self.nets[c].optimizableVars.keys()
 			if c not in self.expts:
 				raise NameError('no expt for given condition')
 			expts.append(self.expts[c])
 		m = Model(expts,nets)
-		#for p,val in self.basic_net.optimizableVars.items():    
-	#		res = Residuals.PriorInLog(p+'_prior', p, np.log(val.initialValue), np.log(np.sqrt(1000)))
-#			m.AddResidual(res)
-		self.models[id] = m
+		for p in list(set(params)):    
+			res = Residuals.PriorInLog(p+'_prior', p, np.log(1), np.log(np.sqrt(100)))
+			m.AddResidual(res)
+		self.opt[id] = optimization(m,id)
 
 	def add_condition(self, mutant, intervention, data, sf=None):
 		id = mutant.id+'_'+intervention.id
 		net = self.basic_net.copy(new_id=id)
 		for param, val in mutant.settings.items():
 			net.set_var_ic(param, val)
-			net.set_var_constant(param, is_constant=True)
 			net.set_var_optimizable(param, is_optimizable=False)
 		if len(intervention.settings)>0:
 			for var, val in intervention.settings.items():
@@ -50,6 +51,7 @@ class wiring:
 			expt.set_fixed_sf({key: sf for key in data.keys()})
 		self.add_expt(expt)
 
+
 class mutant:
 	"""Description goes here"""
 	def __init__(self, id):
@@ -58,6 +60,7 @@ class mutant:
 
 	def add_setting(self, param, val):
 		self.settings[param] = val
+
 
 class intervention:
 	"""Description goes here"""
@@ -71,6 +74,27 @@ class intervention:
 	
 	def add_trigger(self, trigger):
 		self.trigger = trigger
+
+
+class optimization:
+	"""Description goes here"""
+	def __init__(self, m, id):
+		self.id = id
+		self.model = m.copy()
+		self.params_init = m.params.copy()
+		self.cost_init = m.cost(m.params)
+		self.params_opt = []
+		self.cost_opt = np.inf
+
+	def set_params_init(self, params):
+		self.params_init = params.copy()
+		self.cost_init = m.cost(params)
+	
+	def run(self, maxiter=200, disp=False):
+		p = Optimization.fmin_lm_log_params(self.model,
+			self.params_init, maxiter=maxiter, disp=disp)
+		self.cost_opt = self.model.cost(p)
+		self.params_opt = p
 
 mutants = dict()
 mutants['wt'] = mutant('wt')
@@ -130,7 +154,7 @@ data = {
 					1000: (1, 0.1)},              
 			'pmelt_tot' : {
 					100: (1, 0.1),
-					 1100: (0, 0.1)}, 
+					1100: (0, 0.1)}, 
 			},
 		'aurb':{
 			'pmelt_tot' : {
