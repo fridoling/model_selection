@@ -88,11 +88,11 @@ class optimization:
 
 	def set_params_init(self, params):
 		self.params_init = params.copy()
-		self.cost_init = m.cost(params)
+		self.cost_init = self.model.cost(params)
 	
 	def run(self, maxiter=200, disp=False):
-		p = Optimization.fmin_lm_log_params(self.model,
-			self.params_init, maxiter=maxiter, disp=disp)
+		p = Optimization.fmin_log_params(self.model,
+			self.params_init, disp=disp)
 		self.cost_opt = self.model.cost(p)
 		self.params_opt = p
 
@@ -142,55 +142,55 @@ data = {
 	'wt': {
 		'ic':{
 			'prvsf': {
-					100: (0.3, 0.1),
-					1000: (0.3, 0.1)},              
+					100: (0.5, 0.2),
+					1000: (0.5, 0.2)},              
 			'pmelt_tot' : {
-					100: (0.3, 0.1),
-					1100: (0.3, 0.1)}
+					100: (0.5, 0.2),
+					1100: (0.5, 0.2)}
 			},
 		'mps1':{
 			'prvsf': {
-					100: (1, 0.1),
-					1000: (1, 0.1)},              
+					100: (1, 0.2),
+					1000: (1, 0.2)},              
 			'pmelt_tot' : {
-					100: (1, 0.1),
-					1100: (0, 0.1)}, 
+					100: (1, 0.2),
+					1100: (0, 0.2)}, 
 			},
 		'aurb':{
 			'pmelt_tot' : {
-					100: (1, 0.1),
-					1100: (0, 0.1)}, 
+					100: (1, 0.2),
+					1100: (0, 0.2)}, 
 			},
 		'both':{
 			'pmelt_tot' : {
-					100: (1, 0.1),
-					1100: (0, 0.1)}
+					100: (1, 0.2),
+					1100: (0, 0.2)}
 			}
 		},
 	'dkard': {
 		  'ic':{
 			'prvsf': {
-					100: (0.8, 0.1),
-					1000: (0.8, 0.1)},              
+					100: (0.9, 0.2),
+					1000: (0.9, 0.2)},              
 			'pmelt_tot' : {
-					100: (0.8, 0.1),
-					1100: (0.8, 0.1)}
+					100: (0.9, 0.2),
+					1100: (0.9, 0.2)}
 			  },
 		  'mps1':{
     			'pmelt_tot' : {
-					100: (1, 0.1),
-					1100: (1, 0.1)
+					100: (1, 0.2),
+					1100: (1, 0.2)
 				}
 			  },
 		  'aurb':{
     			'prvsf' : {
-					100: (1, 0.1),
-	                		1100: (0, 0.1)},                              
+					100: (1, 0.2),
+	                		1100: (0, 0.2)},                              
 			  },
 		  'both':{
 			 'prvsf' : {
-				 	100: (1, 0.1),
-					1100: (0, 0.1)}
+				 	100: (1, 0.2),
+					1100: (0, 0.2)}
 			  }
 		  }
 

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" xmlns:celldesigner="http://www.sbml.org/2001/ns/celldesigner" level="2" version="4">
+  <model id="untitled">
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance" name="substance">
+	<listOfUnits>
+	  <unit kind="mole"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume" name="volume">
+	<listOfUnits>
+	  <unit kind="litre"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area" name="area">
+	<listOfUnits>
+	  <unit kind="metre" exponent="2"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition  id="length" name="length">
+	<listOfUnits>
+	  <unit kind="metre"/>
+	</listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time" name="time">
+	<listOfUnits>
+	  <unit kind="second"/>
+	</listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="cOne" size="1" units="volume"/>
+    </listOfCompartments>
+    <listOfSpecies>
+     	<species  id="X" name="X" compartment="cOne"
+		initialAmount="10" charge="0">
+	</species>
+    </listOfSpecies>
+    <listOfParameters>
+	<parameter id="ksyn" name="ksyn" value="1" units="substance"/>
+	<parameter id="kdeg" name="kdeg" value="1" units="substance"/>
+    </listOfParameters>
+   <listOfReactions>
+      <reaction  id="synthesis" name="synthesis" reversible="false" fast="false">
+	<listOfProducts>
+	  <speciesReference  species="X">
+	  </speciesReference>
+	</listOfProducts>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> ksyn </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+      <reaction  id="degradation" name="degradation" reversible="false" fast="false">
+	<listOfReactants>
+	  <speciesReference  species="X">
+	  </speciesReference>
+	</listOfReactants>
+	<kineticLaw >
+	  <math xmlns="http://www.w3.org/1998/Math/MathML">
+	    <apply>
+	      <times/>
+	      <ci> kdeg </ci>
+	      <ci> X </ci>
+	    </apply>
+	  </math>
+	</kineticLaw>
+      </reaction>
+   </listOfReactions>
+  </model>
+</sbml>
