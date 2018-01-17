@@ -95,6 +95,15 @@ class optimization:
 			self.params_init, disp=disp)
 		self.cost_opt = self.model.cost(p)
 		self.params_opt = p
+	
+	def run_global(self, steps=1000):
+		j = self.model.jacobian_log_params_sens(np.log(self.params_opt))
+		jtj = np.dot(np.transpose(j), j)
+		Network.full_speed()
+		ens, gs, r = Ensembles.ensemble_log_params(self.model, self.params_opt, jtj, steps=steps)
+		p = ens[np.argmin(gs)]
+		self.cost_opt = self.model.cost(p)
+		self.params_opt = p
 
 mutants = dict()
 mutants['wt'] = mutant('wt')
