@@ -322,7 +322,7 @@
 	    <apply>
 	      <times/>
 	      <ci> rvsf </ci>
-	      <ci> aurb </ci>
+	      <ci> paurb </ci>
 	      <ci> kp_rvsf </ci>
 	    </apply>
 	  </math>

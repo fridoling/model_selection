@@ -90,20 +90,26 @@ class optimization:
 		self.params_init = params.copy()
 		self.cost_init = self.model.cost(params)
 	
-	def run(self, maxiter=200, disp=False):
-		p = Optimization.fmin_log_params(self.model,
-			self.params_init, disp=disp)
+	def run(self, maxiter=100, disp=False):
+		p = Optimization.fmin_lm_log_params(self.model,
+			self.params_init, maxiter=maxiter, disp=disp)
 		self.cost_opt = self.model.cost(p)
 		self.params_opt = p
 	
-	def run_global(self, steps=1000):
-		j = self.model.jacobian_log_params_sens(np.log(self.params_opt))
-		jtj = np.dot(np.transpose(j), j)
+	def run_global(self, steps=1000, trials=3):
 		Network.full_speed()
-		ens, gs, r = Ensembles.ensemble_log_params(self.model, self.params_opt, jtj, steps=steps)
-		p = ens[np.argmin(gs)]
-		self.cost_opt = self.model.cost(p)
-		self.params_opt = p
+		params = self.params_opt
+		self.cost_history = []
+		for i in range(trials):
+			j = self.model.jacobian_log_params_sens(np.log(params))
+			jtj = np.dot(np.transpose(j), j)
+			ens, gs, r = Ensembles.ensemble_log_params(self.model, params, jtj, steps=steps)
+			p = ens[np.argmin(gs)]
+			if self.model.cost(p)<self.cost_opt:
+				self.cost_opt = self.model.cost(p)
+				self.params_opt = p
+			self.cost_history.append(gs[::steps/100])
+
 
 mutants = dict()
 mutants['wt'] = mutant('wt')
@@ -179,11 +185,11 @@ data = {
 	'dkard': {
 		  'ic':{
 			'prvsf': {
-					1000: (0.9, 0.2),
-					1100: (0.9, 0.2)},              
+					500: (0.8, 0.2),
+					1000: (0.8, 0.2)},              
 			'pmelt_tot' : {
-					1000: (0.9, 0.2),
-					1100: (0.9, 0.2)}
+					500: (0.8, 0.2),
+					1000: (0.8, 0.2)}
 			  },
 		  'mps1':{
     			'pmelt_tot' : {
