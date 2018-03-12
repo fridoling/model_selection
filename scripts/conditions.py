@@ -1,5 +1,6 @@
 from SloppyCell.ReactionNetworks import *
 import numpy as np
+import random as rnd
 
 class wiring:
 	"""Class that stores info about a wiring and its performance"""
@@ -98,9 +99,13 @@ class optimization:
 	
 	def run_global(self, steps=1000, trials=3):
 		Network.full_speed()
-		params = self.params_opt
 		self.cost_history = []
+		params = self.params_init
 		for i in range(trials):
+			for i in range(len(self.params_opt)):
+				params[i] = 1-rnd.random()
+			params = Optimization.fmin_lm_log_params(self.model,
+				params, maxiter=20)
 			j = self.model.jacobian_log_params_sens(np.log(params))
 			jtj = np.dot(np.transpose(j), j)
 			ens, gs, r = Ensembles.ensemble_log_params(self.model, params, jtj, steps=steps)
